@@ -25,9 +25,17 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form resource="${this.user}" method="POST">
+            <g:form method="POST" enctype="multipart/form-data">
                 <fieldset class="form">
-                    <f:all bean="user"/>
+                    %{--<f:all bean="user"/>--}%
+                    <label for="username">Username : </label>
+                    <input id="username" value="" type="text" name="username" resource="${this.user.username}"/>
+                    <br><br>
+                    <label for="password"> Password : </label>
+                    <input id="password" value="" type="password" name="password" resource="${this.user.password}"/>
+                    <br><br>
+                    <label for="thumbnail">Thumbnail : </label>
+                    <input id="thumbnail" name="thumbnail" value="Upload an image" type="file" accept="image/x-png,image/gif,image/jpeg"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

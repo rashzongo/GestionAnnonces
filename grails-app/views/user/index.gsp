@@ -18,7 +18,7 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:table collection="${userList}" />
+            %{--<f:table collection="${userList}" />--}%
             <table>
                 <thead>
                 <tr>
@@ -30,8 +30,8 @@
                 </thead>
                 <g:each in="${userList}" var="instance">
                     <tr>
-                        <td><g:link controller="user" action="show" id="${instance.id}">${instance.id}</g:link></td>
-                        <td></td>
+                        <td><g:link controller="user" action="show" id="${instance.id}">${instance.username}</g:link></td>
+                        <td>${instance.password}</td>
                         <td><img src="${instance.thumbnail.filename}"/></td>
                         <td>
                             <ul>
