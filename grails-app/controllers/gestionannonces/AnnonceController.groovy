@@ -23,6 +23,21 @@ class AnnonceController {
     }
 
     def save(Annonce annonce) {
+        /*def file = request.getFile('illustrations')
+        file.transferTo(new File(grailsApplication.config.maconfig.assets_path+'image.png'))
+        annonce.addToIllustrations(new Illustration(filename: 'image.png'))
+        print(file)*/
+        //Générer un nom de fichier aléatoire et vérifier qu'il n'existe pas
+        //Sauvegarder le fichier
+        def file = request.getFiles('fileIllustrations')
+        //file[0].properties.each { println "$it.key -> $it.value" }
+        file.each{
+            def name = new Date()
+            name = name.getTime()
+            it.transferTo(new File(grailsApplication.config.configChemin.assets_url+name+it.originalFilename))
+            annonce.addToIllustrations(new Illustration(filename: name+it.originalFilename))
+        }
+
         if (annonce == null) {
             notFound()
             return

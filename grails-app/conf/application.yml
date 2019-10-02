@@ -126,3 +126,7 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+configChemin:
+    assets_url: '/home/mbds/IdeaProjects/GestionAnnonces/grails-app/assets/images/'
+    assets_path: 'http://localhost:8080/assets/'
