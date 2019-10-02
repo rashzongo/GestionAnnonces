@@ -1,6 +1,8 @@
 package gestionannonces
 
 import grails.validation.ValidationException
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest
+
 import static org.springframework.http.HttpStatus.*
 
 class UserController {
@@ -23,6 +25,14 @@ class UserController {
     }
 
     def save(User user) {
+        println ("**************************")
+        def f = request.getFile('thumbnail')
+        println(f.originalFilename)
+        String destPath = System.currentTimeMillis() + "_" + f.originalFilename
+        f.transferTo(new File(destPath))
+        user.setThumbnail(new Illustration(filename: destPath))
+        //userService.save(user)
+
         if (user == null) {
             notFound()
             return

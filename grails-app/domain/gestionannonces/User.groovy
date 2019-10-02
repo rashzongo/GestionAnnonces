@@ -15,4 +15,13 @@ class User {
         thumbnail nullable: false
         annonces nullable: true
     }
+    // TODO
+    /*
+    - CRUD complet verd uSers et annonces
+    - Upload images
+    - un formulaire de creation d'annonces( illustrations intégrées)
+    - Bonus :
+        - Ajax Upload (preview images une fois chargée)
+        - Cron clean annonces( pour les annonces dont les dates de validité passées)
+    */
 }
