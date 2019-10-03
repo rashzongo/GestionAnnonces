@@ -26,11 +26,52 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form resource="${this.annonce}" method="PUT">
+            <g:form enctype="multipart/form-data" resource="${this.annonce}" method="POST">
+%{--                <form action="save" method="PUT" enctype="multipart/form-data">--}%
                 <g:hiddenField name="version" value="${this.annonce?.version}" />
-                <fieldset class="form">
+                %{--<fieldset class="form">
                     <f:all bean="annonce"/>
+                </fieldset>--}%
+
+
+                <fieldset class="form">
+                    <f:field bean="annonce" property="title">
+                        <f:input bean="annonce" property="title"></f:input>
+                    </f:field>
+                    <f:field bean="annonce" property="description">
+                        <f:input bean="annonce" property="description"></f:input>
+                    </f:field>
+                    <f:field bean="annonce" property="validTill">
+                        <f:input bean="annonce" property="validTill"></f:input>
+                    </f:field>
+                    <f:field bean="annonce" property="illustrations">
+                        <g:each in="${this.annonce.illustrations}" var="illus">
+                            <span>
+                                <g:link controller="illustration" action="delete" id="${illus.id}">
+                                    <img width="50" height="50" src="/assets/${illus.filename}" />
+                                </g:link>
+
+                            </span>
+                        </g:each>
+                        <input id="illustrations" name="fileIllustrations" type="file" multiple />
+                    </f:field>
+
+                    <f:field property="state">
+                        <f:input bean="annonce" property="state"></f:input>
+                    </f:field>
+
+                    <f:field property="author">
+                        <select name="author">
+                            <g:each in="${gestionannonces.User.all}" var="i">
+                                <option value="${i.id}">${i.username}</option>
+                            </g:each>
+                        </select>
+                    </f:field>
+
                 </fieldset>
+
+
+
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
                 </fieldset>

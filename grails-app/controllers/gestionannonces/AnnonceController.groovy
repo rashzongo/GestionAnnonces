@@ -69,6 +69,15 @@ class AnnonceController {
             return
         }
 
+        def file = request.getFiles('fileIllustrations')
+        file[0].properties.each { println "$it.key -> $it.value" }
+        file.each{
+            def name = new Date()
+            name = name.getTime()
+            it.transferTo(new File(grailsApplication.config.configChemin.assets_url+name+it.originalFilename))
+            annonce.addToIllustrations(new Illustration(filename: name+it.originalFilename))
+        }
+
         try {
             annonceService.save(annonce)
         } catch (ValidationException e) {
