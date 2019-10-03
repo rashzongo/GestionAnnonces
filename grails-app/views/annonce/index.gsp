@@ -42,7 +42,7 @@
                     <nav>
                         <ul>
                             <g:each in="${annonce.illustrations}" var="illustration">
-                                <li><img src="${illustration.filename}"></li>
+                                <li><img width="50" height="50" src="/assets/${illustration.filename}"></li>
                             </g:each>
                         </ul>
                     </nav>

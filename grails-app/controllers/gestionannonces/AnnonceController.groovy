@@ -6,8 +6,7 @@ import static org.springframework.http.HttpStatus.*
 class AnnonceController {
 
     AnnonceService annonceService
-
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    IllustrationService illustrationService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -23,20 +22,13 @@ class AnnonceController {
     }
 
     def save(Annonce annonce) {
+        println("SAVE")
         /*def file = request.getFile('illustrations')
         file.transferTo(new File(grailsApplication.config.maconfig.assets_path+'image.png'))
         annonce.addToIllustrations(new Illustration(filename: 'image.png'))
         print(file)*/
         //Générer un nom de fichier aléatoire et vérifier qu'il n'existe pas
         //Sauvegarder le fichier
-        def file = request.getFiles('fileIllustrations')
-        //file[0].properties.each { println "$it.key -> $it.value" }
-        file.each{
-            def name = new Date()
-            name = name.getTime()
-            it.transferTo(new File(grailsApplication.config.configChemin.assets_url+name+it.originalFilename))
-            annonce.addToIllustrations(new Illustration(filename: name+it.originalFilename))
-        }
 
         if (annonce == null) {
             notFound()
@@ -44,6 +36,18 @@ class AnnonceController {
         }
 
         try {
+            def file = request.getFiles('fileIllustrations')
+            file.properties.each { println "$it.key -> $it.value" }
+            //print(file.empty)
+            file.each{
+                println("fileoriginal: "+it.originalFilename)
+                if(it.originalFilename){
+                    def name = new Date()
+                    name = name.getTime()
+                    it.transferTo(new File(grailsApplication.config.configChemin.assets_url+"illustrations/"+name+it.originalFilename))
+                    annonce.addToIllustrations(new Illustration(filename: "illustrations/"+name+it.originalFilename))
+                }
+            }
             annonceService.save(annonce)
         } catch (ValidationException e) {
             respond annonce.errors, view:'create'
@@ -68,16 +72,6 @@ class AnnonceController {
             notFound()
             return
         }
-
-        def file = request.getFiles('fileIllustrations')
-        file[0].properties.each { println "$it.key -> $it.value" }
-        file.each{
-            def name = new Date()
-            name = name.getTime()
-            it.transferTo(new File(grailsApplication.config.configChemin.assets_url+name+it.originalFilename))
-            annonce.addToIllustrations(new Illustration(filename: name+it.originalFilename))
-        }
-
         try {
             annonceService.save(annonce)
         } catch (ValidationException e) {
@@ -109,6 +103,25 @@ class AnnonceController {
             }
             '*'{ render status: NO_CONTENT }
         }
+    }
+
+    def deleteIllustration(Long id){
+        def idAnnonce = params.idAnnonce
+        if (id == null || idAnnonce == null) {
+            notFound()
+            return
+        }
+        def annonceInstance = annonceService.get(idAnnonce)
+        def illustrationInstance = illustrationService.get(id)
+
+        annonceInstance.removeFromIllustrations(illustrationInstance)
+        annonceInstance.save(flush: true)
+        illustrationInstance.delete(flush: true)
+
+        println(idAnnonce)
+
+        redirect (controller:"annonce", action:"edit", id: idAnnonce)
+
     }
 
     protected void notFound() {

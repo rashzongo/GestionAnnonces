@@ -15,9 +15,9 @@ class BootStrap {
                     validTill: new Date(),
                     state: Boolean.TRUE
             )
-                    .addToIllustrations(new Illustration(filename: "filename"))
-                    .addToIllustrations(new Illustration(filename: "filename_1"))
-                    .addToIllustrations(new Illustration(filename: "filename_2"))
+                    .addToIllustrations(new Illustration(filename: "apple-touch-icon.png"))
+                    .addToIllustrations(new Illustration(filename: "apple-touch-icon-retina.png"))
+                    .addToIllustrations(new Illustration(filename: "spinner.gif"))
             userInstance.addToAnnonces(annonceInstance)
 
 

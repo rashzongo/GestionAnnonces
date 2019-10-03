@@ -47,7 +47,7 @@
                     <f:field bean="annonce" property="illustrations">
                         <g:each in="${this.annonce.illustrations}" var="illus">
                             <span>
-                                <g:link controller="illustration" action="delete" id="${illus.id}">
+                                <g:link title="Supprimer l'image" controller="annonce" action="deleteIllustration" id="${illus.id}" params="[idAnnonce: annonce.id]">
                                     <img width="50" height="50" src="/assets/${illus.filename}" />
                                 </g:link>
 
