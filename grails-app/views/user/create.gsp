@@ -48,7 +48,7 @@
                         <input id="thumbnailFile" name="thumbnailFile" type="file" accept="image/x-png,image/gif,image/jpeg"
                             style="display: inline"/>
                     </div>
-                    <img id="thumbnailImg" src="#" alt="Your thumbnail Img" style="width: 150px"/>
+                    <div id="illustrationsPreview"></div>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

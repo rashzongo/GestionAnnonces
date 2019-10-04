@@ -1,12 +1,17 @@
 function previewThumbnailImage(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            $('#thumbnailImg').attr('src', e.target.result);
+    if (input.files) {
+        $('#illustrationsPreview').empty()
+        var readers = [];
+        for(var i=0; i<input.files.length; i++){
+            readers[i] = new FileReader();
+            readers[i].onload = function(e) {
+                var img = document.createElement("img");
+                img.setAttribute("src", e.target.result);
+                img.setAttribute("width", "100px");
+                $('#illustrationsPreview').append(img)
+            }
+            readers[i].readAsDataURL(input.files[i]);
         }
-
-        reader.readAsDataURL(input.files[0]);
     }
 }
 

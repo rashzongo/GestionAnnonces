@@ -50,9 +50,7 @@
                         <input id="thumbnailFile" name="thumbnailFile" type="file" accept="image/x-png,image/gif,image/jpeg"
                                style="display: inline"/>
                     </div>
-                    <div>
-                        <img id="thumbnailImg" src="#" alt="Your thumbnail Img" style="width: 150px"/>
-                    </div>
+                    <div id="illustrationsPreview"></div>
                      <div class='fieldcontain'>
                         <label for='annonces'>Annonces</label>
                         <ul id="annonces">
