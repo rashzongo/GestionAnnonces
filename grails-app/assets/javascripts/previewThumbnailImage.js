@@ -10,6 +10,6 @@ function previewThumbnailImage(input) {
     }
 }
 
-$("#thumbnail").change(function() {
+$("#thumbnailFile").change(function() {
     previewThumbnailImage(this);
 });

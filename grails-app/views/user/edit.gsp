@@ -3,6 +3,7 @@
     <head>
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+        <script type="javascript" src="/assets/javascripts/previewThumbnailImage.js"></script>
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -26,10 +27,41 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form resource="${this.user}" method="PUT">
+            <g:form resource="${this.user}" method="PUT" action="save" enctype="multipart/form-data">
                 <g:hiddenField name="version" value="${this.user?.version}" />
                 <fieldset class="form">
-                    <f:all bean="user"/>
+                    %{--<f:all bean="user"/>--}%
+                    <div class='fieldcontain required'>
+                        <label for='username'>Username
+                            <span class='required-indicator'>*</span>
+                        </label><input type="text" name="username" value="username" required="" maxlength="20" id="username" />
+                    </div>
+                    <div class='fieldcontain required'>
+                        <label for='password'>Password
+                            <span class='required-indicator'>*</span>
+                        </label><input type="password" name="password" required="" maxlength="30" value="" id="password" />
+                    </div>
+                    <div class='fieldcontain required'>
+                        <label for='thumbnail'>Thumbnail<span><t/></span></label>
+                        <img id="thumbnail" src="${"/assets/" + user.thumbnail.filename}" style="width: 50px"/>
+                    </div>
+                    <div class='fieldcontain required'>
+                        <label for='thumbnailFile'> New Thumbnail</label>
+                        <input id="thumbnailFile" name="thumbnailFile" type="file" accept="image/x-png,image/gif,image/jpeg"
+                               style="display: inline"/>
+                    </div>
+                    <div>
+                        <img id="thumbnailImg" src="#" alt="Your thumbnail Img" style="width: 150px"/>
+                    </div>
+                     <div class='fieldcontain'>
+                        <label for='annonces'>Annonces</label>
+                        <ul id="annonces">
+                            <g:each in="${user.annonces}" var="annonce">
+                                <li><a href="/annonce/show/${annonce.id}">${annonce.title}</a></li>
+                            </g:each>
+                        </ul>
+                         <a href="/annonce/create?user.id=${user.id}">Add Annonce</a>
+                    </div>
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />

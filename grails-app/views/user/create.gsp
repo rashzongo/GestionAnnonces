@@ -42,10 +42,10 @@
                         <input type="password" name="password" required="" maxlength="30" value="" id="password" />
                     </div>
                     <div class='fieldcontain required'>
-                        <label for='thumbnail'>Thumbnail
+                        <label for='thumbnailFile'>Thumbnail
                             <span class='required-indicator'>*</span>
                         </label>
-                        <input id="thumbnail" name="thumbnailFile" type="file" accept="image/x-png,image/gif,image/jpeg"
+                        <input id="thumbnailFile" name="thumbnailFile" type="file" accept="image/x-png,image/gif,image/jpeg"
                             style="display: inline"/>
                     </div>
                     <img id="thumbnailImg" src="#" alt="Your thumbnail Img" style="width: 150px"/>
