@@ -53,9 +53,9 @@
 
                             </span>
                         </g:each>
-                        <input id="illustrations" name="fileIllustrations" type="file" multiple />
+                        <input id="thumbnailFile" name="fileIllustrations" type="file" multiple />
                     </f:field>
-
+                    <div id="illustrationsPreview"></div>
                     <f:field property="state">
                         <f:input bean="annonce" property="state"></f:input>
                     </f:field>

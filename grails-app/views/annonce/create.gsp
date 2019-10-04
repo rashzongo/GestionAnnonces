@@ -43,8 +43,10 @@
                 <f:input bean="annonce" property="illustrations"></f:input>
             </f:field>--}%
             <f:field bean="annonce" property="illustrations">
-                <input id="illustrations" name="fileIllustrations" type="file" multiple />
+                <input id="thumbnailFile" name="fileIllustrations" type="file" multiple />
             </f:field>
+
+            <div id="illustrationsPreview"></div>
 
             <f:field property="state">
                 <f:input bean="annonce" property="state"></f:input>
