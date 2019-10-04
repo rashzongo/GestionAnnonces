@@ -4,7 +4,7 @@ class Annonce {
 
     String title
     String description
-    String dateCreated
+    Date dateCreated
     Date validTill
     Boolean state = Boolean.FALSE
 

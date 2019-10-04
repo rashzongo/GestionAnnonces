@@ -26,13 +26,15 @@ class UserController {
 
     def save(User user) {
         println ("**************************")
-        def f = request.getFile('thumbnail')
-        println(f.originalFilename)
-        String destPath = System.currentTimeMillis() + "_" + f.originalFilename
-        f.transferTo(new File(destPath))
-        user.setThumbnail(new Illustration(filename: destPath))
-        //userService.save(user)
-
+        def f = request.getFile('thumbnailFile')
+        if(f != null && f.originalFilename != "") {
+            println(f.originalFilename)
+            //String destPath = System.currentTimeMillis() + "_" + f.originalFilename
+            String destPath = "thumbnails/" + System.currentTimeMillis() + "_" + f.originalFilename
+            println(destPath)
+            f.transferTo(new File(grailsApplication.config.configChemin.assets_url + destPath))
+            user.setThumbnail(new Illustration(filename: destPath))
+        }
         if (user == null) {
             notFound()
             return

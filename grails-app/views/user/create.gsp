@@ -3,6 +3,7 @@
     <head>
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+        <script type="javascript" src="/assets/javascripts/previewThumbnailImage.js"></script>
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -25,22 +26,34 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form method="POST" enctype="multipart/form-data">
+            <form method="POST" action="save" enctype="multipart/form-data">
                 <fieldset class="form">
                     %{--<f:all bean="user"/>--}%
-                    <label for="username">Username : </label>
-                    <input id="username" value="" type="text" name="username" resource="${this.user.username}"/>
-                    <br><br>
-                    <label for="password"> Password : </label>
-                    <input id="password" value="" type="password" name="password" resource="${this.user.password}"/>
-                    <br><br>
-                    <label for="thumbnail">Thumbnail : </label>
-                    <input id="thumbnail" name="thumbnail" value="Upload an image" type="file" accept="image/x-png,image/gif,image/jpeg"/>
+                    <div class='fieldcontain required'>
+                        <label for='username'>Username
+                            <span class='required-indicator'>*</span>
+                        </label>
+                        <input type="text" name="username" value="" required="" maxlength="20" id="username" />
+                    </div>
+                    <div class='fieldcontain required'>
+                        <label for='password'>Password
+                            <span class='required-indicator'>*</span>
+                        </label>
+                        <input type="password" name="password" required="" maxlength="30" value="" id="password" />
+                    </div>
+                    <div class='fieldcontain required'>
+                        <label for='thumbnail'>Thumbnail
+                            <span class='required-indicator'>*</span>
+                        </label>
+                        <input id="thumbnail" name="thumbnailFile" type="file" accept="image/x-png,image/gif,image/jpeg"
+                            style="display: inline"/>
+                    </div>
+                    <img id="thumbnailImg" src="#" alt="Your thumbnail Img" style="width: 150px"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </fieldset>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

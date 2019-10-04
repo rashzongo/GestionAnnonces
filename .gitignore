@@ -10,3 +10,6 @@ out/
 .project
 .settings
 .classpath
+grails-app/conf/application.yml
+grails-app/assets/images/illustrations/*
+grails-app/assets/images/thumbnails/*

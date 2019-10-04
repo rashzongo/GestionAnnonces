@@ -22,7 +22,7 @@
             %{--<f:display bean="user" />--}%
             <p>Username : ${user.username}</p>
             <p>Password : ${user.password}</p>
-            <p>Thumbnail : <img src="${user.thumbnail.filename}"></p>
+            <p>Thumbnail : <img src="${"/assets/" + user.thumbnail.filename}" style="width: 50px"></p>
             <p>Listes des annonces :
                 <ul>
                     <g:each in="${user.annonces}" var="annonce">

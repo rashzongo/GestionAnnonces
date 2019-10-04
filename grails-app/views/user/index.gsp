@@ -32,7 +32,7 @@
                     <tr>
                         <td><g:link controller="user" action="show" id="${instance.id}">${instance.username}</g:link></td>
                         <td>${instance.password}</td>
-                        <td><img src="${instance.thumbnail.filename}"/></td>
+                        <td><img src="${"/assets/" + instance.thumbnail.filename}" style="width: 50px"/></td>
                         <td>
                             <ul>
                                 <g:each in="${instance.annonces}" var="annonce">
