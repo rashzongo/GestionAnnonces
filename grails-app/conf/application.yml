@@ -131,5 +131,5 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
 configChemin:
-    assets_url: '/home/mbds/IdeaProjects/GestionAnnonces/grails-app/assets/images/'
+    assets_url: 'C:\Users\rsoul\Desktop\Cours\master2\grails\tps\GestionAnnonces\grails-app\assets\images\'
     assets_path: 'http://localhost:8080/assets/'

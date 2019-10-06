@@ -10,7 +10,6 @@ class ApiController {
     Logger logger = Logger.getLogger(this.getClass().toString())
     AnnonceService annonceService
     def pattern = "dd-MM-yyyy"
-    //TODO Modifier juste les illustrations
 
     // /api/annonce
     // /api/annonce/1/illustration
@@ -101,7 +100,6 @@ class ApiController {
                     return render (status: 404, text: "Aucun User ne correspond à l'id : $body.authorId")
                 annonce.setAuthor(author)
 
-                //TODO Garder ???
                 //Suppression des illustrations existantes
                 annonce.illustrations.clear()
 
@@ -124,7 +122,6 @@ class ApiController {
                 if (!annonce)
                     return response.status = 404
                 annonce.delete(flush: true)
-                //annonceService.save(annonce)
 
                 return render (status: 200, text: "Annonce supprimée - id : $annonce.id")
             default :

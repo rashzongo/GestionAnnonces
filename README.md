@@ -11,6 +11,7 @@
 
 - Api RESTful sur la ressource Annonce :
         (formats pris en charge : json et xml)
+        
     | Points d'entrée | description | Champs obligatoires (body) |
     | ------ | ------ | ------ |
     | GET /api/annonces/| Liste toutes les annonces de la plateforme | Aucun
