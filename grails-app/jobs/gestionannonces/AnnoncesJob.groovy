@@ -5,7 +5,7 @@ class AnnoncesJob {
     AnnonceService annonceService
 
     static triggers = {
-      simple repeatInterval: 15000l // execute job once in 5 seconds
+        simple repeatInterval: 15000l // execute job once in 15 seconds
     }
     def execute() {
         println("Executing Job...")

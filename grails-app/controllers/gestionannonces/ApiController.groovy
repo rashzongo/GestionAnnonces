@@ -10,7 +10,6 @@ class ApiController {
     Logger logger = Logger.getLogger(this.getClass().toString())
     AnnonceService annonceService
     def pattern = "dd-MM-yyyy"
-    //TODO Modifier juste les illustrations
 
     // /api/annonce
     // /api/annonce/1/illustration
@@ -23,12 +22,13 @@ class ApiController {
                     return response.status = 400
                 def annonce = Annonce.get (params.id)
                 if (!annonce)
-                    return response.status = 404
+                    return render (status: 404, text: "Aucune Annonce ne correspond à l'id : $params.id")
 
-                return response.withFormat {
+                response.withFormat {
                     json { render annonce as JSON }
                     xml { render annonce as XML }
                 }
+                break
 
             case "PATCH" :
                 def body = {}
@@ -39,10 +39,10 @@ class ApiController {
                     body = request.XML
                 }
                 if (!params.id)
-                    return response.status = 400
+                    return render (status: 400, text: "L'id de l'annonce est requis")
                 def annonce = Annonce.get (params.id)
                 if (!annonce)
-                    return response.status = 404
+                    return render (status: 404, text: "Aucune Annonce ne correspond à l'id : $params.id")
 
                 if(body.dateCreated)
                     annonce.setDateCreated(new SimpleDateFormat(pattern).parse(body.dateCreated))
@@ -54,6 +54,12 @@ class ApiController {
                     annonce.setDescription(body.description)
                 if(body.title)
                     annonce.setTitle(body.title)
+                if(body.authorId) {
+                    def author = User.get(body.authorId)
+                    if(!author)
+                        return render (status: 404, text: "Aucun user ne correspond à l'id : $body.authorId")
+                    annonce.setAuthor(author)
+                }
 
                 def illustrations = body.illustrations
                 if(illustrations) {
@@ -62,10 +68,9 @@ class ApiController {
                         annonce.addToIllustrations(new Illustration(filename: filename))
                     }
                 }
-
                 annonceService.save(annonce)
 
-                return response.status = 200
+                return render (status: 200, text: "Annonce modifiée - id : $annonce.id")
 
             case "PUT" :
                 def body = {}
@@ -76,18 +81,25 @@ class ApiController {
                     body = request.XML
                 }
                 if (!params.id)
-                    return response.status = 400
+                    return render (status: 400, text: "L'id de l'annonce est requis")
                 def annonce = Annonce.get (params.id)
                 if (!annonce)
-                    return response.status = 404
-                if(!body.title || !body.description || !body.validTill || !body.state || !body.dateCreated )
-                    return response.status = 400
+                    return render (status: 404, text: "Aucune Annonce ne correspond à l'id : $params.id")
+                if(!body.title || !body.description || !body.validTill || !body.state
+                        || !body.dateCreated || !body.authorId|| !body.illustrations)
+                    return render (status: 400, text: "Des données maquent à la requêtes. " +
+                            "Les attributs suivants sont obligatoires : titel, " +
+                            "description, validTill, state, dateCreated, authorId, illustrations")
                 annonce.setDateCreated(new SimpleDateFormat(pattern).parse(body.dateCreated))
                 annonce.setValidTill(new SimpleDateFormat(pattern).parse(body.validTill))
                 annonce.setState(new Boolean(body.state))
                 annonce.setDescription(body.description)
                 annonce.setTitle(body.title)
-                //TODO Garder ???
+                def author = User.get(body.authorId)
+                if(!author)
+                    return render (status: 404, text: "Aucun User ne correspond à l'id : $body.authorId")
+                annonce.setAuthor(author)
+
                 //Suppression des illustrations existantes
                 annonce.illustrations.clear()
 
@@ -98,22 +110,20 @@ class ApiController {
                         annonce.addToIllustrations(new Illustration(filename: filename))
                     }
                 }
-
                 annonceService.save(annonce)
 
-                return response.status = 200
+                return render (status: 200, text: "Annonce modifiée - id : $annonce.id")
 
             case "DELETE" :
                 if (!params.id)
-                    return response.status = 400
+                    return render (status: 400, text: "L'id de l'annonce est requis")
                 def annonce = Annonce.get (params.id)
 
                 if (!annonce)
                     return response.status = 404
                 annonce.delete(flush: true)
-                //annonceService.save(annonce)
 
-                return response.status = 200
+                return render (status: 200, text: "Annonce supprimée - id : $annonce.id")
             default :
                 return response.status = 405
         }
@@ -128,14 +138,13 @@ class ApiController {
                 def annonces = Annonce.getAll()
                 if (!annonces)
                     return response.status = 404
-                return response.withFormat {
+                response.withFormat {
                     json { render annonces as JSON }
                     xml { render annonces as XML }
                 }
+                break
 
             case "POST" :
-                //println("**********" + request.JSON)
-                //println("**********" + params)
                 def body = {}
                 if(requestType.contains("json")) {
                     body = request.JSON
@@ -146,11 +155,11 @@ class ApiController {
                 logger.info("Request Body : $body")
 
                 if(!body.title || !body.description || !body.validTill || !body.authorId)
-                    return response.status = 400
+                    return render (status: 400, text: "Les champs title, description et validTill sont requis")
 
                 def author = User.get(body.authorId)
                 if(!author)
-                    return response.status = 400
+                    return render (status: 404, text: "Aucun User ne correspond à l'id : $body.authorId")
                 // Create instance
                 def newAnnonce = new Annonce(
                         title: body.title,
@@ -169,7 +178,7 @@ class ApiController {
                     }
                 }
                 annonceService.save(newAnnonce)
-                return response.status = 201
+                return render (status: 201, text: "Annonce créée - id : $newAnnonce.id")
             default :
                 return response.status = 405
         }
